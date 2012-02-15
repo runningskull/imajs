@@ -60,7 +60,7 @@ Just post your form to `/upload`. Make sure the image field's name is `img`.
 The uploaded file will be stored in your designated S3 bucket and folder _(see "config" section below)_.
 
 <h3>Subfolders</h3>
-You can store a file in a subfolder by POST'ing it to `/upload/my_prefix/`. 
+You can store a file in a subfolder by POST'ing it to `/upload/<prefix>/`. 
 
 For instance, if you post `toocool.png` to `/upload/way/`, the file will be stored in S3 at `<orig_dir>/way/toocool.png` _(see "config" below for more on `orig_dir`)_
 
