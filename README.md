@@ -35,7 +35,7 @@ Do not use `imajs` to serve images directly. _It is meant to be used behind a CD
 
 
 ## OK. But why?
-`imajs` makes it easy to enable a user to resize/crop their image after uploading it, without having to store the edited version(s) of the image alongside the original. 
+`imajs` makes it easy to enable a user to resize/crop their image after uploading it, without having to store the edited version(s) of the image alongside the original. Just store the crop/resize/[whatever...] dimensions somewhere and let `imajs` do the heavy lifting.
 
 It's also useful for prototyping, or other situations where you don't know what size/crop/[...] you'll need ahead of time. Or, any time you would rather request a transformation at runtime.
 
