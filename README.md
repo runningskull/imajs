@@ -1,4 +1,5 @@
 # imajs 
+<code>
   _                       _     
  (_)                     (_)    
   _   _ __ ___    __ _    _   ___ 
@@ -8,7 +9,7 @@
                     _____/ |    
                     \______/     
  
-
+</code>
 pronounced "images"
 
 What Do It Do?
