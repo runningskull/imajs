@@ -77,7 +77,7 @@ Commands and parameters map to [ImageMagick command line options](http://www.ima
 Allowed [commands](http://www.imagemagick.org/script/command-line-options.php) are whitelisted. By default, the only ones allowed are `crop` and `resize` but allowing more is as simple as adding them to a list _(see "config" section below)_
 
 <h3>One Exception</h3>
-Commands and their params are passed directly into ImageMagick, with one exception. If you exclude `x` and `y` from a `crop` command (like `/crop:200x200/`), `imajs` will append `+0+0` to keep ImageMagick from breaking the image into tiles (meaning the crop will start at the top left of the image)
+Commands and their params are passed directly into ImageMagick, with one exception. If you exclude `x` and `y` from a `crop` command (like `/crop:200x200/` instead of `/crop:200x200+40+40`), `imajs` will append `+0+0` to keep ImageMagick from breaking the image into tiles (meaning the crop will start at the top left of the image)
 
 
 ## Config
