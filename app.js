@@ -23,11 +23,28 @@ if (config.orig_dir[0] != '/') config.orig_dir = '/' + config.orig_dir
 if (config.orig_dir[config.orig_dir.length-1] != '/') config.orig_dir += '/'
 
 
+//~~ Ensure our tmp directory exists
 fs.mkdir('/tmp/imajs', '777', function() {
     console.log('--- created directory ---')
 })
 
 
+//~~ We want to allow CORS
+function allowXDM(req, res, next) {
+    var aca = 'Access-Control-Allow-'
+    ,   xf = function(s){ return 'X-File-'+s }
+
+    res.header(aca + 'Origin', config.allow_origin)
+    res.header(aca + 'Credentials', true)
+    res.header(aca + 'Methods', 'POST, GET, PUT, OPTIONS')
+    res.header(aca + 'Headers', ['Content-Type', xf('Name'), xf('Type'), xf('Size')])
+
+    next()
+}
+//~~
+
+
+//~~ Convenience/util functions
 function _redir(url, code) {
     return function(req, res) { res.redirect(url, code) }
 }
@@ -64,10 +81,12 @@ function _parseCmds(cfg) {
 
     return commands
 }
+//~~
 
 
 app.configure(function() {
     app.use(express.bodyParser())
+    app.use(allowXDM)
 })
 
 
@@ -76,6 +95,11 @@ app.get('/$', function(req, res) {
         res.contentType('text/html')
         res.end('<pre style="text-align:center">'+data+'</pre>')
     })
+})
+
+
+app.options('/upload/?:prefix?/?$', function(req, res) {
+    res.end()
 })
 
 
