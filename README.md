@@ -27,7 +27,7 @@ Do not use `imajs` to serve images directly. _It is meant to be used behind a CD
 ## What Do It _Not_ Do?
 * Require you to pre-define any format/size variations
 * Serve plain images (anywhere near) as fast as a static file server
-* Timestamp/rename your files _(it **can** use subfolders. see the "upload" section below)_
+* Timestamp/rename your files _(it **can** use prefixes. see the "upload" section below)_
 * Cache anything
 * Save transformed images back to S3
 
@@ -59,12 +59,12 @@ Just post your form to `/upload`. Make sure the image field's name is `img`.
 
 The uploaded file will be stored in your designated S3 bucket and folder _(see "config" section below)_.
 
-<h3>Subfolders</h3>
-You can store a file in a subfolder by POST'ing it to `/upload/<prefix>/`. 
+<h3>File Prefixes Keep Things Clean</h3>
+You can store a file with a prefix by POST'ing it to `/upload/<prefix>/`. Prefixes are prepended to the filename, with a "-" separator.
 
-For instance, if you post `toocool.png` to `/upload/way/`, the file will be stored in S3 at `<orig_dir>/way/toocool.png` _(see "config" below for more on `orig_dir`)_
+For instance, if you post `toocool.png` to `/upload/way/`, the file will be stored in S3 at `<orig_dir>/way-toocool.png` _(see "config" below for more on `orig_dir`)_
 
-This helps avoid filename conflicts. For instance, you could upload each user's files to `/upload/<username>/` to keep everyone's files separate. You could even use `/upload/<username>/<timestamp>/` to make a conflict even less likely.
+This helps avoid filename conflicts. For instance, you could(/should) upload each user's files to `/upload/<username>/` to keep everyone's files separate. You could even use `/upload/<username>/<timestamp>/` to make a conflict even less likely.
 
 
 ## Downloading
@@ -87,7 +87,7 @@ Edit your config by copying `config_local_sample.js` to `config_local.js` and ed
     * Default: `['crop', 'resize']`
 * `max_age` - how long the CDN should cache your images. Sent in the `Cache-Control` header of the response
     * Default: `31556926` (one year)
-* `orig_dir` - the top level folder `imajs` knows about in your S3 bucket. Everything is stored inside this folder (see "subfolders" above for more)
+* `orig_dir` - the top level folder `imajs` knows about in your S3 bucket. Everything is stored inside this folder (see "prefixes" above for more)
     * Default: `'orig'`
 
 

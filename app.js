@@ -114,7 +114,7 @@ app.get('/upload/$', function(req, res) {
 
 app.post('/upload/?:prefix?/?$', function(req, res) {
     var img = req.files.img
-    ,   prefix = !!req.params.prefix ? '/'+req.params.prefix+'/' : ''
+    ,   prefix = !!req.params.prefix ? '/'+req.params.prefix+'-' : ''
     ,   imgFile = img.path
     ,   destFile = config.orig_dir + prefix + img.name
 
@@ -124,7 +124,7 @@ app.post('/upload/?:prefix?/?$', function(req, res) {
 })
 
 
-app.get('/img/:filename/?(/*)?', function(req, res) {
+app.get('/img/:filename/?(.*)?', function(req, res) {
     function _serve(path) {
         res.sendfile(path, function() {
             fs.unlink(path)
