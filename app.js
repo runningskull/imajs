@@ -124,7 +124,7 @@ app.post('/upload/?:prefix?/?$', function(req, res) {
 })
 
 
-app.get('/img/:filename/?(.*)?', function(req, res) {
+app.get('/img/:filename/?(/*)?', function(req, res) {
     function _serve(path) {
         res.sendfile(path, function() {
             fs.unlink(path)
