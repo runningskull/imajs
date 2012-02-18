@@ -119,7 +119,7 @@ app.post('/upload/?:prefix?/?$', function(req, res) {
     ,   destFile = config.orig_dir + prefix + img.name
 
     s3.putFile(imgFile, destFile, function(err, s3res) {
-        res.end(' :) ')
+        res.json({status: 'ok'})
     })
 })
 
