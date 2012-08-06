@@ -70,7 +70,7 @@ This helps avoid filename conflicts. For instance, you could(/should) upload eac
 ## Downloading
 Downloading is straightforward. It works by hitting the `/img/` URL like this:
 
-`http://imajs.mysite.com/img/[<command>:<parameters>]/[...]/[...]/`
+`http://imajs.mysite.com/img/<filename>/[<command>:<parameters>]/[...]/[...]/`
 
 Commands and parameters map to [ImageMagick command line options](http://www.imagemagick.org/script/command-line-options.php). Parameters map directly to [ImageMagick "geometry"](http://www.imagemagick.org/script/command-line-processing.php#geometry). Commands are executed in order.
 
