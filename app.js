@@ -45,10 +45,6 @@ function allowXDM(req, res, next) {
 
 
 //~~ Convenience/util functions
-function _redir(url, code) {
-    return function(req, res) { res.redirect(url, code) }
-}
-
 function _tmpfile(filename, prefix) {
     prefix = !!prefix ? (prefix + '-') : ''
     return '/tmp/imajs/' + prefix + Date.now() + '-' + filename
@@ -103,7 +99,7 @@ app.options('/upload/?:prefix?/?$', function(req, res) {
 })
 
 
-app.get('/upload/$', function(req, res) {
+app.get('/upload/?$', function(req, res) {
     res.contentType('text/html')
     res.end('<form action="/upload/" method="POST" enctype="multipart/form-data">'+
             '   <input type="file", name="img" /><br/><br/>'+
@@ -157,11 +153,6 @@ app.get('/img/:filename/?(/*)?', function(req, res) {
         })
     }).end()
 })
-
-
-
-// redirects
-app.get('/upload', _redir('/upload/', 301))
 
 
 
