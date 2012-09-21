@@ -1,0 +1,8 @@
+worker:
+    type: custom
+    buildscript: nodejs/builder
+    ports:
+        www: http
+    process: node app.js 
+    approot: ./
+    node_version: v0.8.9
