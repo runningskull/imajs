@@ -5,8 +5,9 @@ var ENV = process.env
 ,   express = require('express')
 ,   knox    = require('knox')
 ,   magick  = require('imagemagick')
+,   pipe    = require('multipart-pipe')
 
-,   app = express.createServer(express.logger())
+,   app = express()
 ,   s3 = knox.createClient(config.s3)
 
 ,   fixOpParams = {
@@ -81,8 +82,21 @@ function _parseCmds(cfg) {
 
 
 app.configure(function() {
-    app.use(express.bodyParser())
+    app.use(express.logger())
+    app.use(express.json())
+    app.use(express.urlencoded())
     app.use(allowXDM)
+
+    app.use('/upload', express.multipart({
+        defer: true,
+        limit: '128mb'
+    }))
+    app.use('/upload', pipe.s3(s3, {
+        'content-type': /^image\/.*$/i,
+        filename: function (fn, req) {
+            return config.orig_dir + (!!req.params.prefix ? req.params.prefix + '-' : '') + fn
+        }
+    }))
 })
 
 
@@ -109,18 +123,12 @@ app.get('/upload/?$', function(req, res) {
 
 
 app.post('/upload/?:prefix?/?$', function(req, res) {
-    var img = req.files.img
-    ,   prefix = !!req.params.prefix ? req.params.prefix+'-' : ''
-    ,   imgFile = img.path
-    ,   destFile = config.orig_dir + prefix + img.name
-
-    s3.putFile(imgFile, destFile, function(err, s3res) {
-        res.json({status: 'ok'})
-    })
+    res.json({status:ok, files: req.uploaded_files})
 })
 
 
 app.get('/img/:filename/?(/*)?', function(req, res) {
+
     function _serve(path) {
         res.sendfile(path, function() {
             fs.unlink(path)
