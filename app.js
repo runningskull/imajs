@@ -7,7 +7,7 @@ var ENV = process.env
 ,   magick  = require('imagemagick')
 ,   pipe    = require('multipart-pipe')
 
-,   app = express.createServer(express.logger())
+,   app = express()
 ,   s3 = knox.createClient(config.s3)
 
 ,   fixOpParams = {
@@ -82,13 +82,15 @@ function _parseCmds(cfg) {
 
 
 app.configure(function() {
+    app.use(express.logger())
     app.use(express.json())
     app.use(express.urlencoded())
-    app.use(express.multipart({
+    app.use(allowXDM)
+
+    app.use('/upload', express.multipart({
         defer: true,
         limit: '128mb'
     }))
-    app.use(allowXDM)
     app.use('/upload', pipe.s3(s3, {
         'content-type': /^image\/.*$/i,
         filename: function (fn, req) {
@@ -126,6 +128,7 @@ app.post('/upload/?:prefix?/?$', function(req, res) {
 
 
 app.get('/img/:filename/?(/*)?', function(req, res) {
+
     function _serve(path) {
         res.sendfile(path, function() {
             fs.unlink(path)
