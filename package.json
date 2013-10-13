@@ -1,7 +1,7 @@
 {
-  "name": "dont-die",
-  "version": "0.0.1",
-  "main": "web.js",
+  "name": "imajs",
+  "version": "0.0.2",
+  "main": "index.js",
   "dependencies": {
     "multipart-pipe": "~0.2.1",
     "express": "~3.4.0",
