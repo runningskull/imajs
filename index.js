@@ -143,7 +143,7 @@ app.get('/img/:filename/?(/*)?', function(req, res) {
     res.setHeader('Cache-Control', 'max-age=' + config.max_age)
 
     s3.get(config.orig_dir + filename).on('response', function(s3res) {
-        var stream = fs.createWriteStream(tmpFile)
+        var stream = commands ? fs.createWriteStream(tmpFile) : res;
 
         s3res.on('data', function(chunk) {
             stream.write(chunk)
@@ -152,7 +152,7 @@ app.get('/img/:filename/?(/*)?', function(req, res) {
 
             // Do we just want the original file?
             if (! commands)
-                return _serve(tmpFile)
+                return
 
             magick.convert(_.flatten([tmpFile, commands, destFile]), function(err, meta) {
                 fs.unlink(tmpFile)
